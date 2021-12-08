@@ -27,6 +27,7 @@ export default function MaterialList() {
       id: id,
       img: img,
       name: name,
+      quantity: 1,
     };
 
     setPropsData((selectedItemArray) => {
@@ -43,8 +44,6 @@ export default function MaterialList() {
   };
 
   const handleDelete = (id) => {
-    console.log(id);
-
     setPropsData((prevItems) => {
       return prevItems.filter((item) => id !== item.id);
     });
@@ -74,6 +73,7 @@ export default function MaterialList() {
           </div>
         ))}
       </div>
+      <Cart propsData={propsData} handleDelete={handleDelete} />
     </div>
   );
 }

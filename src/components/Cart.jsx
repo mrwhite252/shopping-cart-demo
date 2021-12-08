@@ -1,24 +1,25 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
+import { Add as AddIcon, Remove as RemoveIcon } from "@material-ui/icons";
 
 import "./Cart.css";
 
 export default function Cart({ propsData, handleDelete }) {
-  //   const selectedItem = props.propsData;
-
-  //   const [items, setItems] = useState([]);
-
-  const [count, setCount] = useState(1);
-
-  //   useEffect(() => {
-  //     setItems(selectedItem);
-  //   }, [props]);
+  const [count, setCount] = useState(null);
 
   const handlePlus = (id) => {
-    console.log(id);
-    const clickedItem = items.filter((item) => item.id === id);
-    //   setCount(count + 1);
+    propsData.map((item) => {
+      if (item.id === id) {
+        return setCount((count) => item.quantity++);
+      }
+    });
+  };
 
-    // console.log(clickedItem);
+  const handleMinus = (id) => {
+    propsData.map((item) => {
+      if (item.id === id) {
+        return setCount((count) => item.quantity--);
+      }
+    });
   };
 
   return (
@@ -27,11 +28,15 @@ export default function Cart({ propsData, handleDelete }) {
       {propsData &&
         propsData.map((item) => (
           <div className="cart-item" key={item.id}>
-            <img src={`../img/${item.img}`} alt={item.img} />
-            <h3>{item.name}</h3>
-            <span onClick={() => handlePlus(item.id)}>+</span>
-            <span id={item.id}>{count}</span>
-            <span onClick={() => setCount(count - 1)}>-</span>
+            <div className="item-container">
+              <img src={`../img/${item.img}`} alt={item.img} />
+              <h3>{item.name}</h3>
+            </div>
+            <div className="quantity-container">
+              <AddIcon onClick={() => handlePlus(item.id)} />
+              <p id={item.id}>{item.quantity}</p>
+              <RemoveIcon onClick={() => handleMinus(item.id)} />
+            </div>
             <button onClick={() => handleDelete(item.id)}>X</button>
           </div>
         ))}
